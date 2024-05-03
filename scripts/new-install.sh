@@ -184,7 +184,7 @@ msg_ok "Default resolution has been set"
 msg_info "Trying to set Default Audio Device"
 
 # Create the file with the specified content
-mkdir /scripts
+mkdir -p /scripts
 FILE_PATH="/scripts/set_default_audio.sh"
 CONTENT="#!/bin/bash\n\n# Set the default audio sink\npacmd set-default-sink alsa_output.pci-0000_00_1f.3.hdmi-stereo\n"
 echo -e "$CONTENT" | tee "$FILE_PATH" >/dev/null
