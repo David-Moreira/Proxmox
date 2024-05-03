@@ -2,6 +2,9 @@
 
 source <(curl -s https://raw.githubusercontent.com/David-Moreira/Proxmox/main/scripts/misc/build.func)
 
+color
+catch_errors
+
 echo -e "Testing... Loading..."
 
 msg_info "Testing..."
