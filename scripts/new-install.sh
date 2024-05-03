@@ -183,8 +183,18 @@ msg_ok "Default resolution has been set"
 #SET DEFAULT AUDIO DEVICE
 msg_info "Trying to set Default Audio Device"
 
-pacmd list-sinks | grep -A1 index
-pacmd set-default-sink alsa_output.pci-0000_00_1f.3.hdmi-stereo
+# Create the file with the specified content
+FILE_PATH="/scripts/set_default_audio.sh"
+CONTENT="#!/bin/bash\n\n# Set the default audio sink\npacmd set-default-sink alsa_output.pci-0000_00_1f.3.hdmi-stereo\n"
+echo -e "$CONTENT" | tee "$FILE_PATH" >/dev/null
+echo "File $FILE_PATH created."
+chmod +x "$FILE_PATH"
+
+# Create the file with the specified content
+FILE_PATH="/etc/xdg/autostart/audio.desktop"
+CONTENT="[Desktop Entry]\nName=audio\nExec=/scripts/set_default_audio.sh\nType=Application"
+echo -e "$CONTENT" | tee "$FILE_PATH" >/dev/null
+echo "File $FILE_PATH created."
 
 msg_ok "Finished trying to set Default Audio Device"
 
