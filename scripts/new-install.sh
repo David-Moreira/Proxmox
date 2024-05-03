@@ -14,12 +14,10 @@ CRON_JOB='0 7 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin
 # Check if the entry already exists
 if ! crontab -l | grep -Fxq "$CRON_JOB"; then
     echo "$CRON_JOB" | crontab -u root -
-    echo "Cron job added."
+    msg_ok "Added tteck lxc cron updater"
 else
-    echo "Cron job already exists."
+    msg_ok "tteck lxc cron updater already exists."
 fi
-
-msg_ok "Added tteck lxc cron updater"
 
 #-----
 #DISABLE SWAP
@@ -92,12 +90,11 @@ SESSION_VALUE="xfce"
 
 # Add user-session=xfce to /etc/lightdm/lightdm.conf if not already present
 if grep -qxF "user-session=$SESSION_VALUE" /etc/lightdm/lightdm.conf; then
-    echo "user-session=$SESSION_VALUE already exists in /etc/lightdm/lightdm.conf."
+    msg_ok "user-session=$SESSION_VALUE already exists in /etc/lightdm/lightdm.conf."
 else
     echo "user-session=$SESSION_VALUE" | tee -a /etc/lightdm/lightdm.conf > /dev/null
-    echo "Added user-session=$SESSION_VALUE to /etc/lightdm/lightdm.conf."
+    msg_ok "Added user-session=$SESSION_VALUE to /etc/lightdm/lightdm.conf."
 fi
-msg_ok "Default session set to xfce"
 
 #-----
 #DISABLE LOCK
@@ -205,14 +202,14 @@ mkdir -p /scripts
 FILE_PATH="/scripts/set_default_audio.sh"
 CONTENT="#!/bin/bash\n\n# Set the default audio sink\npacmd set-default-sink alsa_output.pci-0000_00_1f.3.hdmi-stereo\n"
 echo -e "$CONTENT" | tee "$FILE_PATH" >/dev/null
-echo "File $FILE_PATH created."
+echo "Created File $FILE_PATH"
 chmod +x "$FILE_PATH"
 
 # Create the file with the specified content
 FILE_PATH="/etc/xdg/autostart/audio.desktop"
 CONTENT="[Desktop Entry]\nName=audio\nExec=/scripts/set_default_audio.sh\nType=Application"
 echo -e "$CONTENT" | tee "$FILE_PATH" >/dev/null
-echo "File $FILE_PATH created."
+echo "Created $FILE_PATH"
 
 msg_ok "Finished trying to set Default Audio Device"
 
@@ -227,8 +224,7 @@ CONTENT="[Desktop Entry]\nName=moonlight\nExec=/snap/bin/moonlight\nType=Applica
 # Create the file with the specified content
 echo -e "$CONTENT" | tee "$FILE_PATH" >/dev/null
 
-msg_ok "Created $FILE_PATH with content:"
-msg_ok -e "$CONTENT"
+msg_ok "Created $FILE_PATH"
 
 #-----
 #INSTALL SNAP & MOONLIGHT
