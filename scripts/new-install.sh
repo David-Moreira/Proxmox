@@ -16,7 +16,7 @@ if ! crontab -l | grep -Fxq "$CRON_JOB"; then
     echo "$CRON_JOB" | crontab -u root -
     msg_ok "Added tteck lxc cron updater"
 else
-    msg_ok "tteck lxc cron updater already exists."
+    msg_ok "tteck lxc cron updater already exists"
 fi
 
 #-----
@@ -67,12 +67,12 @@ USERNAME="desktop"
 PASSWORD="desktop"
 
 if id "$USERNAME" &>/dev/null; then
-    msg_ok "User $USERNAME already exists."
+    msg_ok "User $USERNAME already exists"
 else
     # Create the user with the specified password
     useradd -m "$USERNAME"
     echo "$USERNAME:$PASSWORD" | chpasswd
-    msg_ok "User $USERNAME created with password $PASSWORD."
+    msg_ok "User $USERNAME created with password $PASSWORD"
 fi
 
 #-----
@@ -90,10 +90,10 @@ SESSION_VALUE="xfce"
 
 # Add user-session=xfce to /etc/lightdm/lightdm.conf if not already present
 if grep -qxF "user-session=$SESSION_VALUE" /etc/lightdm/lightdm.conf; then
-    msg_ok "user-session=$SESSION_VALUE already exists in /etc/lightdm/lightdm.conf."
+    msg_ok "user-session=$SESSION_VALUE already exists in /etc/lightdm/lightdm.conf"
 else
     echo "user-session=$SESSION_VALUE" | tee -a /etc/lightdm/lightdm.conf > /dev/null
-    msg_ok "Added user-session=$SESSION_VALUE to /etc/lightdm/lightdm.conf."
+    msg_ok "Added user-session=$SESSION_VALUE to /etc/lightdm/lightdm.conf"
 fi
 
 #-----
@@ -103,10 +103,10 @@ HIDDEN="Hidden=true"
 
 # Add Hidden=true to /etc/xdg/autostart/light-locker.desktop if not already present
 if grep -qxF "$HIDDEN" /etc/xdg/autostart/light-locker.desktop; then
-    echo "$HIDDEN already exists in /etc/xdg/autostart/light-locker.desktop."
+    echo "$HIDDEN already exists in /etc/xdg/autostart/light-locker.desktop"
 else
     echo "$HIDDEN" | tee -a /etc/xdg/autostart/light-locker.desktop > /dev/null
-    echo "Added $HIDDEN to /etc/xdg/autostart/light-locker.desktop."
+    echo "Added $HIDDEN to /etc/xdg/autostart/light-locker.desktop"
 fi
 
 msg_ok "Disabled screen lock"
@@ -117,7 +117,7 @@ msg_info "Setting Auto login"
 # Uncomment the autologin-user line and set the username
 sed -i '/^# *autologin-user=/s/^# *\(autologin-user=\)/\1'$USERNAME'/' /etc/lightdm/lightdm.conf
 
-msg_ok "Updated autologin user to $USERNAME in /etc/lightdm/lightdm.conf."
+msg_ok "Updated autologin user to $USERNAME in /etc/lightdm/lightdm.conf"
 
 #-----
 #SET DEFAULT RESOLUTION
