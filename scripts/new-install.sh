@@ -5,6 +5,23 @@ source <(curl -s https://raw.githubusercontent.com/David-Moreira/Proxmox/main/sc
 color
 catch_errors
 
+#-----
+#ADD TTECK PROXMOX LXC Cron Updater
+msg_info "Adding tteck lxc cron updater"
+# Define the cron job entry
+CRON_JOB='0 7 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/misc/update-lxcs-cron.sh)" >>/var/log/update-lxcs-cron.log 2>/dev/null'
+
+# Check if the entry already exists
+if ! crontab -l | grep -Fxq "$CRON_JOB"; then
+    echo "$CRON_JOB" | crontab -u root -
+    echo "Cron job added."
+else
+    echo "Cron job already exists."
+fi
+
+msg_ok "Added tteck lxc cron updater"
+
+#-----
 #DISABLE SWAP
 msg_info "Disabling swap"
 
