@@ -179,6 +179,15 @@ echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/
 
 msg_ok "Default resolution has been set"
 
+#----
+#SET DEFAULT AUDIO DEVICE
+msg_info "Trying to set Default Audio Device"
+
+pacmd list-sinks | grep -A1 index
+pacmd set-default-sink alsa_output.pci-0000_00_1f.3.hdmi-stereo
+
+msg_ok "Finished trying to set Default Audio Device"
+
 #-----
 #AUTO START MOONLIGHT
 msg_info "Creating Auto Start entry for Moonlight"
