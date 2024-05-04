@@ -11,6 +11,8 @@ PASSWORD="desktop"
 SESSION_VALUE="xfce"
 CRON_JOB='0 7 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/misc/update-lxcs-cron.sh)" >>/var/log/update-lxcs-cron.log 2>/dev/null'
 
+clear
+
 #-----
 #Truncate log
 msg_info "Truncating install log"
@@ -22,7 +24,7 @@ msg_ok "Truncated install log (new-install.log)"
 msg_info "Adding tteck lxc cron updater"
 
 # Check if the entry already exists
-if ! crontab -l | grep -Fxq "$CRON_JOB"; then
+if ! crontab -l -u root | grep -Fxq "$CRON_JOB"; then
     echo "$CRON_JOB" | crontab -u root - >> new-install.log 2>&1
     echo "Added tteck lxc cron updater" >> new-install.log 2>&1
 else
