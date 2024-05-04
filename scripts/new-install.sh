@@ -55,7 +55,7 @@ MODULES="vfio vfio_iommu_type1 vfio_pci vfio_virqfd"
 
 # Add modules to /etc/modules if not already present
 for module in $MODULES; do
-    grep -qxF "$module" /etc/modules || echo "$module" | tee -a /etc/modules
+    grep -qxF "$module" /etc/modules || echo "$module" | tee -a /etc/modules >> new-install.log 2>&1
 done
 
 update-initramfs -u -k all >> new-install.log 2>&1
