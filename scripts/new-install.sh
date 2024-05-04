@@ -21,7 +21,7 @@ msg_ok "Truncated install log (new-install.log)"
 
 #-----
 #ADD TTECK PROXMOX LXC Cron Updater
-msg_info "Adding tteck lxc cron updater"
+msg_info "lxc cron updater"
 
 # Check if the entry already exists
 if ! crontab -l -u root | grep -Fxq "$CRON_JOB"; then
