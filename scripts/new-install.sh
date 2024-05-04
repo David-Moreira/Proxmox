@@ -204,7 +204,7 @@ chown -R desktop:desktop /home/desktop/.config/
 echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml >> new-install.log 2>&1
 
 else
-
+msg_error "No default resolution set at this time"
 fi
 
 msg_ok "Default resolution has been set"
