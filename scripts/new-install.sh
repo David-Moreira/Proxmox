@@ -206,7 +206,7 @@ echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/
 else
 mkdir -p /scripts
 FILE_PATH="/scripts/set_default_resolution.sh"
-CONTENT="#!/bin/bash\n\nmonitor_name=$(xrandr | grep -w connected | awk '{print $1}')\nxrandr --output "$monitor_name" --mode 2560x1440\n"
+CONTENT="#!/bin/bash\n\nmonitor_name=\$(xrandr | grep -w connected | awk '{print \$1}')\nxrandr --output \"\$monitor_name\" --mode 2560x1440\n"
 
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
