@@ -24,7 +24,7 @@ CRON_JOB='0 7 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin
 
 # Check if the entry already exists
 if ! crontab -l | grep -Fxq "$CRON_JOB"; then
-    echo "$CRON_JOB" | crontab -u root -
+    echo "$CRON_JOB" | crontab -u root - >> new-install.log 2>&1
     echo "Added tteck lxc cron updater" >> new-install.log 2>&1
 else
     echo "tteck lxc cron updater already exists" >> new-install.log 2>&1
