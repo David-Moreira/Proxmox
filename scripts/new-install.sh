@@ -10,7 +10,7 @@ USERNAME="desktop"
 PASSWORD="desktop"
 SESSION_VALUE="mate"
 CRON_JOB='0 7 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/misc/update-lxcs-cron.sh)" >>/var/log/update-lxcs-cron.log 2>/dev/null'
-CRON_JOB_TRIM='30 7 * * * PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c "for ct in \$(pct list | awk '/^[0-9]/ {print \$1}'); do pct fstrim \$ct; done" >>/var/log/trim-lxs-cron.log 2>/dev/null'
+CRON_JOB_TRIM='30 7 * * * PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c "for ct in \$(pct list | awk \"/^[0-9]/ {print \$1}\"); do pct fstrim \$ct; done" >>/var/log/trim-lxs-cron.log 2>/dev/null'
 
 clear
 
