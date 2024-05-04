@@ -199,6 +199,7 @@ CONTENT='<?xml version="1.0" encoding="UTF-8"?>
 
 # Write the content to displays.xml
 mkdir -p /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/
+chown -R desktop:desktop /home/desktop/.config/
 echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml >> new-install.log 2>&1
 
 msg_ok "Default resolution has been set"
