@@ -111,13 +111,15 @@ msg_ok "Default session set to $SESSION_VALUE"
 #-----
 #DISABLE LOCK
 msg_info "Disabling screen lock"
-HIDDEN="Hidden=true"
 
-# Add Hidden=true to /etc/xdg/autostart/light-locker.desktop if not already present
-if grep -qxF "$HIDDEN" /etc/xdg/autostart/light-locker.desktop; then
-    echo "$HIDDEN already exists in /etc/xdg/autostart/light-locker.desktop" >> new-install.log 2>&1
-else
-    echo "$HIDDEN" | tee -a /etc/xdg/autostart/light-locker.desktop >> new-install.log 2>&1
+if [ "$session" = "xfce" ]; then
+  HIDDEN="Hidden=true"
+  # Add Hidden=true to /etc/xdg/autostart/light-locker.desktop if not already present
+  if grep -qxF "$HIDDEN" /etc/xdg/autostart/light-locker.desktop; then
+      echo "$HIDDEN already exists in /etc/xdg/autostart/light-locker.desktop" >> new-install.log 2>&1
+  else
+      echo "$HIDDEN" | tee -a /etc/xdg/autostart/light-locker.desktop >> new-install.log 2>&1
+  fi
 fi
 
 msg_ok "Disabled screen lock"
