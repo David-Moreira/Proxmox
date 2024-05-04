@@ -9,6 +9,7 @@ MODULES="vfio vfio_iommu_type1 vfio_pci vfio_virqfd"
 USERNAME="desktop"
 PASSWORD="desktop"
 SESSION_VALUE="xfce"
+CRON_JOB='0 7 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/misc/update-lxcs-cron.sh)" >>/var/log/update-lxcs-cron.log 2>/dev/null'
 
 #-----
 #Truncate log
@@ -19,8 +20,6 @@ msg_ok "Truncated install log (new-install.log)"
 #-----
 #ADD TTECK PROXMOX LXC Cron Updater
 msg_info "Adding tteck lxc cron updater"
-# Define the cron job entry
-CRON_JOB='0 7 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/misc/update-lxcs-cron.sh)" >>/var/log/update-lxcs-cron.log 2>/dev/null'
 
 # Check if the entry already exists
 if ! crontab -l | grep -Fxq "$CRON_JOB"; then
