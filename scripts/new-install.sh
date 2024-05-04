@@ -39,7 +39,8 @@ msg_ok "Added tteck lxc cron updater"
 msg_info "Adding fstrim for lxc"
 
 if ! crontab -l -u root | grep -Fxq "$CRON_JOB_TRIM"; then
-    echo "$CRON_JOB_TRIM" | crontab -u root - >> new-install.log 2>&1
+    EXISTING_CRONTAB=$(crontab -l -u root)
+    echo "$EXISTING_CRONTAB"$'\n'"$CRON_JOB_TRIM" | crontab -u root - >> new-install.log 2>&1
     echo "Added lxc fstrim" >> new-install.log 2>&1
 else
     echo "lxc fstrim already exists" >> new-install.log 2>&1
