@@ -129,7 +129,7 @@ msg_info "Setting Auto login"
 # Uncomment the autologin-user line and set the username
 sed -i '/^# *autologin-user=/s/^# *\(autologin-user=\)/\1'$USERNAME'/' /etc/lightdm/lightdm.conf
 
-msg_ok "Updated autologin user to $USERNAME"
+msg_ok "Updated auto login user to $USERNAME"
 
 #-----
 #SET DEFAULT RESOLUTION
@@ -207,7 +207,7 @@ msg_ok "Default resolution has been set"
 
 #----
 #SET DEFAULT AUDIO DEVICE
-msg_info "Trying to set Default Audio Device"
+msg_info "Trying to set Default Audio Device auto start entry"
 
 # Create the file with the specified content
 mkdir -p /scripts
@@ -221,11 +221,11 @@ FILE_PATH="/etc/xdg/autostart/audio.desktop"
 CONTENT="[Desktop Entry]\nName=audio\nExec=/scripts/set_default_audio.sh\nType=Application"
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
-msg_ok "Added AutoStart entry to set Default Audio Device"
+msg_ok "Added auto start entry to set Default Audio Device"
 
 #-----
 #AUTO START MOONLIGHT
-msg_info "Creating Auto Start entry for Moonlight"
+msg_info "Creating auto start entry for Moonlight"
 
 # Define the file path and content
 FILE_PATH="/etc/xdg/autostart/moonlight.desktop"
@@ -234,7 +234,7 @@ CONTENT="[Desktop Entry]\nName=moonlight\nExec=/snap/bin/moonlight\nType=Applica
 # Create the file with the specified content
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
-msg_ok "Added AutoStart entry for Moonlight"
+msg_ok "Added auto start entry for Moonlight"
 
 #-----
 #INSTALL SNAP & MOONLIGHT
