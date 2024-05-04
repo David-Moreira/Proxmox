@@ -102,7 +102,7 @@ msg_ok "Installed graphical display"
 msg_info "Default session to xfce"
 
 if ! grep -q "user-session=$SESSION_VALUE" /etc/lightdm/lightdm.conf && grep -q '^\[Seat:\*\]' /etc/lightdm/lightdm.conf; then
-    sudo sed -i "/^\[Seat:\*\]/a user-session=$SESSION_VALUE" /etc/lightdm/lightdm.conf
+    sed -i "/^\[Seat:\*\]/a user-session=$SESSION_VALUE" /etc/lightdm/lightdm.conf
 fi
 
 msg_ok "Default session set to xfce"
