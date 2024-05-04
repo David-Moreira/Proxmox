@@ -5,6 +5,12 @@ source <(curl -s https://raw.githubusercontent.com/David-Moreira/Proxmox/main/sc
 color
 
 #-----
+#Truncate log
+msg_info "Truncating install log"
+truncate -s 0 new-install.log && command >> new-install.log 2>&1
+msg_ok "Truncated install log (new-install.log)"
+
+#-----
 #ADD TTECK PROXMOX LXC Cron Updater
 msg_info "Adding tteck lxc cron updater"
 # Define the cron job entry
@@ -101,7 +107,7 @@ else
     echo "user-session=$SESSION_VALUE" | tee -a /etc/lightdm/lightdm.conf >> new-install.log 2>&1
 fi
 
-msg_ok "Set default session to xfce"
+msg_ok "Default session set to xfce"
 
 #-----
 #DISABLE LOCK
@@ -123,7 +129,7 @@ msg_info "Setting Auto login"
 # Uncomment the autologin-user line and set the username
 sed -i '/^# *autologin-user=/s/^# *\(autologin-user=\)/\1'$USERNAME'/' /etc/lightdm/lightdm.conf
 
-msg_ok "Updated autologin user to $USERNAME in /etc/lightdm/lightdm.conf"
+msg_ok "Updated autologin user to $USERNAME"
 
 #-----
 #SET DEFAULT RESOLUTION
@@ -215,7 +221,7 @@ FILE_PATH="/etc/xdg/autostart/audio.desktop"
 CONTENT="[Desktop Entry]\nName=audio\nExec=/scripts/set_default_audio.sh\nType=Application"
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
-msg_ok "Finished trying to set Default Audio Device"
+msg_ok "Added AutoStart entry to set Default Audio Device"
 
 #-----
 #AUTO START MOONLIGHT
@@ -228,7 +234,7 @@ CONTENT="[Desktop Entry]\nName=moonlight\nExec=/snap/bin/moonlight\nType=Applica
 # Create the file with the specified content
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
-msg_ok "Created $FILE_PATH"
+msg_ok "Added AutoStart entry for Moonlight"
 
 #-----
 #INSTALL SNAP & MOONLIGHT
