@@ -40,12 +40,12 @@ msg_info "Customizing sub uid & gid"
 FILE_PATH="/etc/subuid"
 CONTENT="# container users\nroot:100000:65536\n\n# custom users from 1000-2999\nroot:1000:2000"
 
-echo -e "$CONTENT" | sudo tee "$FILE_PATH" >> new-install.log 2>&1
+echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
 FILE_PATH="/etc/subgid"
 CONTENT="# container-specific groups\nroot:100000:65536\n\n# custom user groups 1000-2000\nroot:1000:2000\n\n# default 'users' group 100\nroot:100:1"
 
-echo -e "$CONTENT" | sudo tee "$FILE_PATH" >> new-install.log 2>&1
+echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
 msg_ok "Added custom sub uid & gid"
 
