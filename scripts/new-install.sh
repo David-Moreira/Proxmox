@@ -224,6 +224,16 @@ echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 msg_ok "Added auto start entry to set Default Audio Device"
 
 #-----
+#INSTALL SNAP & MOONLIGHT
+msg_info "Installing snap & moonlight"
+
+apt install snapd -y >> new-install.log 2>&1
+snap install core >> new-install.log 2>&1
+snap install moonlight >> new-install.log 2>&1
+
+msg_ok "Installed snap & moonlight"
+
+#-----
 #AUTO START MOONLIGHT
 msg_info "Creating auto start entry for Moonlight"
 
@@ -235,14 +245,3 @@ CONTENT="[Desktop Entry]\nName=moonlight\nExec=/snap/bin/moonlight\nType=Applica
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
 msg_ok "Added auto start entry for Moonlight"
-
-#-----
-#INSTALL SNAP & MOONLIGHT
-msg_info "Installing snap & moonlight"
-
-apt install snapd -y >> new-install.log 2>&1
-snap install core >> new-install.log 2>&1
-snap install moonlight >> new-install.log 2>&1
-
-msg_ok "Installed snap & moonlight"
-
