@@ -204,24 +204,14 @@ chown -R desktop:desktop /home/desktop/.config/
 echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml >> new-install.log 2>&1
 
 else
-FILE_PATH="/usr/share/X11/xorg.conf.d/10-monitor.conf"
-CONTENT='Section "Monitor"
-    Identifier "Monitor0"
-    Modeline "2560x1440_60.00"  312.25  2560 2752 3024 3488  1440 1443 1448 1493 -hsync +vsync
-    Option "PreferredMode" "2560x1440_60.00"
-EndSection
+mkdir -p /scripts
+FILE_PATH="/scripts/set_default_resolution.sh"
+CONTENT="#!/bin/bash\n\nmonitor_name=$(xrandr | grep -w connected | awk '{print $1}')\nxrandr --output "$monitor_name" --mode 2560x1440\n"
 
-Section "Screen"
-    Identifier "Screen0"
-    Monitor "Monitor0"
-    DefaultDepth 24
-    SubSection "Display"
-        Depth 24
-        Modes "2560x1440_60.00"
-    EndSubSection
-EndSection
-'
+echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
+FILE_PATH="/etc/xdg/autostart/resolution.desktop"
+CONTENT="[Desktop Entry]\nName=resolution\nExec=/scripts/set_default_resolution.sh\nType=Application"
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 fi
 
@@ -231,14 +221,12 @@ msg_ok "Default resolution has been set"
 #SET DEFAULT AUDIO DEVICE
 msg_info "Trying to set Default Audio Device auto start entry"
 
-# Create the file with the specified content
 mkdir -p /scripts
 FILE_PATH="/scripts/set_default_audio.sh"
 CONTENT="#!/bin/bash\n\n# Set the default audio sink\npacmd set-default-sink alsa_output.pci-0000_00_1f.3.hdmi-stereo\n"
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 chmod +x "$FILE_PATH"
 
-# Create the file with the specified content
 FILE_PATH="/etc/xdg/autostart/audio.desktop"
 CONTENT="[Desktop Entry]\nName=audio\nExec=/scripts/set_default_audio.sh\nType=Application"
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
