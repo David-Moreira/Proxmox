@@ -8,7 +8,7 @@ SWAP="/dev/pve/swap none swap sw 0 0"
 MODULES="vfio vfio_iommu_type1 vfio_pci vfio_virqfd"
 USERNAME="desktop"
 PASSWORD="desktop"
-SESSION_VALUE="xfce"
+SESSION_VALUE="mate"
 CRON_JOB='0 7 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/misc/update-lxcs-cron.sh)" >>/var/log/update-lxcs-cron.log 2>/dev/null'
 
 clear
@@ -93,19 +93,20 @@ msg_ok "Added new user: desktop"
 #INSTALL GRAPHICAL DISPLAY
 msg_info "Installing graphical display"
 
-apt-get install xfce4 lightdm mate -y >> new-install.log 2>&1
+#apt-get install xfce4 lightdm mate -y >> new-install.log 2>&1
+apt-get install lightdm mate -y >> new-install.log 2>&1
 
 msg_ok "Installed graphical display"
 
 #-----
-#SET DEFAULT SESSION TO XFCE
-msg_info "Default session to xfce"
+#SET DEFAULT SESSION
+msg_info "Default session to $SESSION_VALUE"
 
 if ! grep -q "user-session=$SESSION_VALUE" /etc/lightdm/lightdm.conf && grep -q '^\[Seat:\*\]' /etc/lightdm/lightdm.conf; then
     sed -i "/^\[Seat:\*\]/a user-session=$SESSION_VALUE" /etc/lightdm/lightdm.conf
 fi
 
-msg_ok "Default session set to xfce"
+msg_ok "Default session set to $SESSION_VALUE"
 
 #-----
 #DISABLE LOCK
@@ -133,7 +134,7 @@ msg_ok "Updated auto login user to $USERNAME"
 #SET DEFAULT RESOLUTION
 msg_info "Setting the default resolution"
 
-# Define the content to replace displays.xml
+if [ "$session" = "xfce" ]; then
 CONTENT='<?xml version="1.0" encoding="UTF-8"?>
 <channel name="displays" version="1.0">
   <property name="ActiveProfile" type="string" value="Default"/>
@@ -201,6 +202,10 @@ CONTENT='<?xml version="1.0" encoding="UTF-8"?>
 mkdir -p /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/
 chown -R desktop:desktop /home/desktop/.config/
 echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml >> new-install.log 2>&1
+
+else
+
+fi
 
 msg_ok "Default resolution has been set"
 
