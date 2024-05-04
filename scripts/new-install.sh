@@ -4,6 +4,12 @@ source <(curl -s https://raw.githubusercontent.com/David-Moreira/Proxmox/main/sc
 
 color
 
+SWAP="/dev/pve/swap none swap sw 0 0"
+MODULES="vfio vfio_iommu_type1 vfio_pci vfio_virqfd"
+USERNAME="desktop"
+PASSWORD="desktop"
+SESSION_VALUE="xfce"
+
 #-----
 #Truncate log
 msg_info "Truncating install log"
@@ -31,7 +37,6 @@ msg_ok "Added tteck lxc cron updater"
 msg_info "Disabling swap"
 
 swapoff -a
-SWAP="/dev/pve/swap none swap sw 0 0"
 
 # Comment out the line in /etc/fstab if it exists
 sed -i "s|^$SWAP|# $SWAP|" /etc/fstab
@@ -51,7 +56,6 @@ msg_ok "Updated grub, /etc/default/grub (Don't forget to reboot for the changes 
 #-----
 #MODULES
 msg_info "Updating modules"
-MODULES="vfio vfio_iommu_type1 vfio_pci vfio_virqfd"
 
 # Add modules to /etc/modules if not already present
 for module in $MODULES; do
@@ -72,9 +76,6 @@ msg_ok "Installed vainfo"
 #-----
 #ADD USER
 msg_info "Add new User: desktop"
-
-USERNAME="desktop"
-PASSWORD="desktop"
 
 if id "$USERNAME" &>/dev/null; then
     echo "User $USERNAME already exists" >> new-install.log 2>&1
@@ -98,7 +99,6 @@ msg_ok "Installed graphical display"
 #-----
 #SET DEFAULT SESSION TO XFCE
 msg_info "Default session to xfce"
-SESSION_VALUE="xfce"
 
 # Add user-session=xfce to /etc/lightdm/lightdm.conf if not already present
 if grep -qxF "user-session=$SESSION_VALUE" /etc/lightdm/lightdm.conf; then
