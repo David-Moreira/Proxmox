@@ -101,11 +101,8 @@ msg_ok "Installed graphical display"
 #SET DEFAULT SESSION TO XFCE
 msg_info "Default session to xfce"
 
-# Add user-session=xfce to /etc/lightdm/lightdm.conf if not already present
-if grep -qxF "user-session=$SESSION_VALUE" /etc/lightdm/lightdm.conf; then
-    echo "user-session=$SESSION_VALUE already exists in /etc/lightdm/lightdm.conf" >> new-install.log 2>&1
-else
-    echo "user-session=$SESSION_VALUE" | tee -a /etc/lightdm/lightdm.conf >> new-install.log 2>&1
+if ! grep -q 'user-session=$SESSION_VALUE' /etc/lightdm/lightdm.conf && grep -q '^\[Seat:\*\]' /etc/lightdm/lightdm.conf; then
+    sed -i '/^\[Seat:\*\]/a user-session=$SESSION_VALUE' /etc/lightdm/lightdm.conf
 fi
 
 msg_ok "Default session set to xfce"
