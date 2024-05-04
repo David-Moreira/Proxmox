@@ -13,10 +13,12 @@ CRON_JOB='0 7 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin
 # Check if the entry already exists
 if ! crontab -l | grep -Fxq "$CRON_JOB"; then
     echo "$CRON_JOB" | crontab -u root -
-    msg_ok "Added tteck lxc cron updater"
+    echo "Added tteck lxc cron updater" >> new-install.log 2>&1
 else
-    msg_ok "tteck lxc cron updater already exists"
+    echo "tteck lxc cron updater already exists" >> new-install.log 2>&1
 fi
+
+msg_ok "Added tteck lxc cron updater"
 
 #-----
 #DISABLE SWAP
@@ -27,6 +29,7 @@ SWAP="/dev/pve/swap none swap sw 0 0"
 
 # Comment out the line in /etc/fstab if it exists
 sed -i "s|^$SWAP|# $SWAP|" /etc/fstab
+
 msg_ok "Disabled swap"
 
 #-----
@@ -35,7 +38,7 @@ GRUB="quiet intel_iommu=on iommu=pt"
 msg_info "Updating grub with: GRUB_CMDLINE_LINUX_DEFAULT=\"$GRUB\""
 
 sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT=\"$GRUB\"/" /etc/default/grub
-update-grub
+update-grub >> new-install.log 2>&1
 
 msg_ok "Updated grub, /etc/default/grub (Don't forget to reboot for the changes to take effect.)"
 
@@ -49,12 +52,14 @@ for module in $MODULES; do
     grep -qxF "$module" /etc/modules || echo "$module" | tee -a /etc/modules
 done
 
-update-initramfs -u -k all
+update-initramfs -u -k all >> new-install.log 2>&1
 msg_ok "Modules added to /etc/modules"
 
+#-----
+#VAINFO (Intel Drivers)
 msg_info "Installing vainfo"
 
-apt install vainfo -y 
+apt install vainfo -y >> new-install.log 2>&1
 
 msg_ok "Installed vainfo"
 
@@ -66,19 +71,21 @@ USERNAME="desktop"
 PASSWORD="desktop"
 
 if id "$USERNAME" &>/dev/null; then
-    msg_ok "User $USERNAME already exists"
+    echo "User $USERNAME already exists" >> new-install.log 2>&1
 else
     # Create the user with the specified password
     useradd -m "$USERNAME"
     echo "$USERNAME:$PASSWORD" | chpasswd
-    msg_ok "User $USERNAME created with password $PASSWORD"
+    echo "User $USERNAME created with password $PASSWORD" >> new-install.log 2>&1
 fi
+
+msg_ok "Added new user: desktop"
 
 #-----
 #INSTALL GRAPHICAL DISPLAY
 msg_info "Installing graphical display"
 
-apt-get install xfce4 lightdm mate -y
+apt-get install xfce4 lightdm mate -y >> new-install.log 2>&1
 
 msg_ok "Installed graphical display"
 
@@ -89,11 +96,12 @@ SESSION_VALUE="xfce"
 
 # Add user-session=xfce to /etc/lightdm/lightdm.conf if not already present
 if grep -qxF "user-session=$SESSION_VALUE" /etc/lightdm/lightdm.conf; then
-    msg_ok "user-session=$SESSION_VALUE already exists in /etc/lightdm/lightdm.conf"
+    echo "user-session=$SESSION_VALUE already exists in /etc/lightdm/lightdm.conf" >> new-install.log 2>&1
 else
-    echo "user-session=$SESSION_VALUE" | tee -a /etc/lightdm/lightdm.conf > /dev/null
-    msg_ok "Added user-session=$SESSION_VALUE to /etc/lightdm/lightdm.conf"
+    echo "user-session=$SESSION_VALUE" | tee -a /etc/lightdm/lightdm.conf >> new-install.log 2>&1
 fi
+
+msg_ok "Set default session to xfce"
 
 #-----
 #DISABLE LOCK
@@ -102,10 +110,9 @@ HIDDEN="Hidden=true"
 
 # Add Hidden=true to /etc/xdg/autostart/light-locker.desktop if not already present
 if grep -qxF "$HIDDEN" /etc/xdg/autostart/light-locker.desktop; then
-    echo "$HIDDEN already exists in /etc/xdg/autostart/light-locker.desktop"
+    echo "$HIDDEN already exists in /etc/xdg/autostart/light-locker.desktop" >> new-install.log 2>&1
 else
-    echo "$HIDDEN" | tee -a /etc/xdg/autostart/light-locker.desktop > /dev/null
-    echo "Added $HIDDEN to /etc/xdg/autostart/light-locker.desktop"
+    echo "$HIDDEN" | tee -a /etc/xdg/autostart/light-locker.desktop >> new-install.log 2>&1
 fi
 
 msg_ok "Disabled screen lock"
@@ -188,7 +195,7 @@ CONTENT='<?xml version="1.0" encoding="UTF-8"?>
 </channel>'
 
 # Write the content to displays.xml
-echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml > /dev/null
+echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml >> new-install.log 2>&1
 
 msg_ok "Default resolution has been set"
 
@@ -200,15 +207,13 @@ msg_info "Trying to set Default Audio Device"
 mkdir -p /scripts
 FILE_PATH="/scripts/set_default_audio.sh"
 CONTENT="#!/bin/bash\n\n# Set the default audio sink\npacmd set-default-sink alsa_output.pci-0000_00_1f.3.hdmi-stereo\n"
-echo -e "$CONTENT" | tee "$FILE_PATH" >/dev/null
-echo "Created File $FILE_PATH"
+echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 chmod +x "$FILE_PATH"
 
 # Create the file with the specified content
 FILE_PATH="/etc/xdg/autostart/audio.desktop"
 CONTENT="[Desktop Entry]\nName=audio\nExec=/scripts/set_default_audio.sh\nType=Application"
-echo -e "$CONTENT" | tee "$FILE_PATH" >/dev/null
-echo "Created $FILE_PATH"
+echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
 msg_ok "Finished trying to set Default Audio Device"
 
@@ -221,7 +226,7 @@ FILE_PATH="/etc/xdg/autostart/moonlight.desktop"
 CONTENT="[Desktop Entry]\nName=moonlight\nExec=/snap/bin/moonlight\nType=Application"
 
 # Create the file with the specified content
-echo -e "$CONTENT" | tee "$FILE_PATH" >/dev/null
+echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
 msg_ok "Created $FILE_PATH"
 
@@ -229,9 +234,9 @@ msg_ok "Created $FILE_PATH"
 #INSTALL SNAP & MOONLIGHT
 msg_info "Installing snap & moonlight"
 
-apt install snapd -y
-snap install core
-snap install moonlight
+apt install snapd -y >> new-install.log 2>&1
+snap install core >> new-install.log 2>&1
+snap install moonlight >> new-install.log 2>&1
 
 msg_ok "Installed snap & moonlight"
 
