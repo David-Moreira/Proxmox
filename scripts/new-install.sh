@@ -195,7 +195,6 @@ CONTENT='<?xml version="1.0" encoding="UTF-8"?>
       </property>
     </property>
   </property>
-  <property name="AutoEnableProfiles" type="bool" value="true"/>
 </channel>'
 
 # Write the content to displays.xml
