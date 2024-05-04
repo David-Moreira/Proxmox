@@ -10,6 +10,7 @@ USERNAME="desktop"
 PASSWORD="desktop"
 SESSION_VALUE="mate"
 CRON_JOB='0 7 * * 0 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/misc/update-lxcs-cron.sh)" >>/var/log/update-lxcs-cron.log 2>/dev/null'
+CRON_JOB_TRIM='30 7 * * * PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash -c "for ct in \$(pct list | awk '/^[0-9]/ {print \$1}'); do pct fstrim \$ct; done" >>/var/log/trim-lxs-cron.log 2>/dev/null'
 
 clear
 
@@ -32,6 +33,19 @@ else
 fi
 
 msg_ok "Added tteck lxc cron updater"
+
+#----
+#Add LXC FSTrim
+msg_info "Adding fstrim for lxc"
+
+if ! crontab -l -u root | grep -Fxq "$CRON_JOB_TRIM"; then
+    echo "$CRON_JOB_TRIM" | crontab -u root - >> new-install.log 2>&1
+    echo "Added lxc fstrim" >> new-install.log 2>&1
+else
+    echo "lxc fstrim already exists" >> new-install.log 2>&1
+fi
+
+msg_ok "Added lxc fstrim"
 
 #-----
 #Customize uid & gid
