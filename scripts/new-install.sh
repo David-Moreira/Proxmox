@@ -204,7 +204,24 @@ chown -R desktop:desktop /home/desktop/.config/
 echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml >> new-install.log 2>&1
 
 else
-msg_error "No default resolution set at this time"
+FILE_PATH="/usr/share/X11/xorg.conf.d/10-monitor.conf"
+CONTENT='Section "Monitor"
+    Identifier "Monitor0"
+    Modeline "2560x1440_60.00" 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync
+    Option "PreferredMode" "2560x1440_60.00"
+EndSection
+
+Section "Screen"
+    Identifier "Screen0"
+    Monitor "Monitor0"
+    DefaultDepth 48
+    SubSection "Display"
+        Depth 48
+        Modes "2560x1440_60.00"
+    EndSubSection
+EndSection'
+
+echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 fi
 
 msg_ok "Default resolution has been set"
