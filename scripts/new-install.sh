@@ -207,19 +207,20 @@ else
 FILE_PATH="/usr/share/X11/xorg.conf.d/10-monitor.conf"
 CONTENT='Section "Monitor"
     Identifier "Monitor0"
-    Modeline "2560x1440_60.00" 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync
+    Modeline "2560x1440_60.00"  312.25  2560 2752 3024 3488  1440 1443 1448 1493 -hsync +vsync
     Option "PreferredMode" "2560x1440_60.00"
 EndSection
 
 Section "Screen"
     Identifier "Screen0"
     Monitor "Monitor0"
-    DefaultDepth 48
+    DefaultDepth 24
     SubSection "Display"
-        Depth 48
+        Depth 24
         Modes "2560x1440_60.00"
     EndSubSection
-EndSection'
+EndSection
+'
 
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 fi
