@@ -151,6 +151,18 @@ if [ "$session" = "xfce" ]; then
   else
       echo "$HIDDEN" | tee -a /etc/xdg/autostart/light-locker.desktop >> new-install.log 2>&1
   fi
+else
+
+mkdir -p /scripts
+FILE_PATH="/scripts/set_screenlock_off.sh"
+CONTENT="#!/bin/bash\n\n# Set the default screensaver lock off\ngsettings set org.mate.screensaver lock-enabled false\n"
+echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
+chmod +x "$FILE_PATH"
+
+FILE_PATH="/etc/xdg/autostart/screenlock.desktop"
+CONTENT="[Desktop Entry]\nName=screenlock\nExec=/scripts/set_screenlock_off.sh\nType=Application"
+echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
+
 fi
 
 msg_ok "Disabled screen lock"
@@ -265,6 +277,7 @@ CONTENT="[Desktop Entry]\nName=audio\nExec=/scripts/set_default_audio.sh\nType=A
 echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
 
 msg_ok "Added auto start entry to set Default Audio Device"
+
 
 #-----
 #INSTALL SNAP & MOONLIGHT
