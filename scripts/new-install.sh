@@ -92,7 +92,7 @@ if [ "$SET_INTEL" = true ]; then
 
     msg_ok "Updated grub, /etc/default/grub (Don't forget to reboot for the changes to take effect.)"
 else
-    msg_info "Skipping grub configuration"
+    msg_ok "Skipping grub configuration"
 fi
 
 #-----
@@ -110,7 +110,7 @@ if [ "$SET_MODULES" = true ]; then
     
     msg_ok "Modules added to /etc/modules"
 else
-    msg_info "Skipping module configuration"
+    msg_ok "Skipping module configuration"
 fi
 
 #-----
@@ -123,7 +123,7 @@ if [ "$SET_INTEL" = true ]; then
     msg_ok "Installed vainfo"
 
 else
-    msg_info "Skipping vainfo installation"
+    msg_ok "Skipping vainfo installation"
 fi
 
 
@@ -143,7 +143,7 @@ if [ "$SET_GRAPHICAL_DISPLAY" = true ]; then
 
     msg_ok "Added new user: desktop"
 else
-    msg_info "Skipping user creation"
+    msg_ok "Skipping user creation"
 fi
 
 
@@ -168,7 +168,7 @@ if [ "$SET_GRAPHICAL_DISPLAY" = true ]; then
     fi
     msg_ok "Default session set to $SESSION_VALUE"
 else
-    msg_info "Skipping graphical display installation"
+    msg_ok "Skipping graphical display installation"
 fi
 
 
@@ -201,7 +201,7 @@ if [ "$SET_GRAPHICAL_DISPLAY" = true ]; then
     fi
     msg_ok "Disabled screen lock"
 else
-    msg_info "Skipping screen lock disable"
+    msg_ok "Skipping screen lock disable"
 fi
 
 
@@ -214,7 +214,7 @@ if [ "$SET_GRAPHICAL_DISPLAY" = true ]; then
 
     msg_ok "Updated auto login user to $USERNAME"
 else
-    msg_info "Skipping auto login setup"
+    msg_ok "Skipping auto login setup"
 fi
 
 #-----
@@ -306,7 +306,7 @@ if [ "$SET_GRAPHICAL_DISPLAY" = true ]; then
 
     msg_ok "Default resolution has been set"
 else
-    msg_info "Skipping default resolution setup"
+    msg_ok "Skipping default resolution setup"
 fi
 
 #----
@@ -326,7 +326,7 @@ if [ "$SET_GRAPHICAL_DISPLAY" = true ]; then
 
     msg_ok "Added auto start entry to set Default Audio Device"
 else
-    msg_info "Skipping Default Audio Device auto start entry"
+    msg_ok "Skipping Default Audio Device auto start entry"
 fi
 
 #-----
@@ -353,5 +353,5 @@ msg_info "Installing snap & moonlight"
 
     msg_ok "Added auto start entry for Moonlight"
 else
-    msg_info "Skipping snap & moonlight installation"
+    msg_ok "Skipping snap & moonlight installation"
 fi
