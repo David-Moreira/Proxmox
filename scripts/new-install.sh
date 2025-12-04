@@ -92,7 +92,7 @@ done
 FSTAB="/etc/fstab"
 
 entries=(
-"UUID=2b7f9fa5-09f0-4b4f-83d1-d21128d00ee4 /mnt/pve/barracuda ext4 defaults,nofail,x-systemd.device-timeout=1s 0 0"
+"UUID=2b7f9fa5-09f0-4b4f-83d1-d21128d00ee4 /mnt/pve/barracuda  ext4 defaults,nofail,x-systemd.device-timeout=1s 0 0"
 "UUID=37daabeb-16a1-49bb-8cd7-84b58a736b20 /mnt/pve/downloads  ext4 defaults,nofail,x-systemd.device-timeout=1s 0 0"
 "UUID=fe38564d-59a1-457d-8852-563faeb2b45f /mnt/pve/basic      ext4 defaults,nofail,x-systemd.device-timeout=1s 0 0"
 )
