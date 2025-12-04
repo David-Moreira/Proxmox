@@ -86,7 +86,7 @@ msg_info "Setting fstab and default mounts"
 mountpoints=("/mnt/pve/barracuda" "/mnt/pve/downloads" "/mnt/pve/basic")
 
 for dir in "${mountpoints[@]}"; do
-    sudo mkdir -p "$dir"
+    mkdir -p "$dir"
 done
 
 FSTAB="/etc/fstab"
@@ -103,7 +103,7 @@ for entry in "${entries[@]}"; do
     # If the UUID does not exist in /etc/fstab, append the full line
     if ! grep -q "$uuid" "$FSTAB"; then
         echo "Adding missing entry: $entry"
-        echo "$entry" | sudo tee -a "$FSTAB" > /dev/null
+        echo "$entry" | tee -a "$FSTAB" > /dev/null
     else
         echo "Entry for $uuid already exists – skipping."
     fi
