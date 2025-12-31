@@ -277,7 +277,7 @@ msg_info "Setting the default resolution"
 
 if [ "$SET_GRAPHICAL_DISPLAY" = true ]; then
 
-    if [ "$session" = "xfce" ]; then
+    # if [ "$session" = "xfce" ]; then
     # CONTENT='<?xml version="1.0" encoding="UTF-8"?>
     # <channel name="displays" version="1.0">
     #   <property name="ActiveProfile" type="string" value="Default"/>
@@ -346,7 +346,7 @@ if [ "$SET_GRAPHICAL_DISPLAY" = true ]; then
     # chown -R desktop:desktop /home/desktop/.config/
     # echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml >> new-install.log 2>&1
 
-    else
+    # else
     # mkdir -p /scripts
     # FILE_PATH="/scripts/set_default_resolution.sh"
     # CONTENT="#!/bin/bash\n\nmonitor_name=\$(xrandr | grep -w connected | awk '{print \$1}')\nxrandr --output \"\$monitor_name\" --mode 2560x1440\n"
@@ -356,7 +356,7 @@ if [ "$SET_GRAPHICAL_DISPLAY" = true ]; then
     # FILE_PATH="/etc/xdg/autostart/resolution.desktop"
     # CONTENT="[Desktop Entry]\nName=resolution\nExec=/scripts/set_default_resolution.sh\nType=Application"
     # echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
-    fi
+    # fi
 
     msg_ok "Default resolution has been set"
 else
