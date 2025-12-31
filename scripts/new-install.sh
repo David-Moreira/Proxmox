@@ -263,84 +263,84 @@ msg_info "Setting the default resolution"
 if [ "$SET_GRAPHICAL_DISPLAY" = true ]; then
 
     if [ "$session" = "xfce" ]; then
-    CONTENT='<?xml version="1.0" encoding="UTF-8"?>
-    <channel name="displays" version="1.0">
-      <property name="ActiveProfile" type="string" value="Default"/>
-      <property name="Default" type="empty">
-        <property name="HDMI-2" type="string" value="Samsung 48&quot;">
-          <property name="Active" type="bool" value="true"/>
-          <property name="EDID" type="string" value="27fad4939ecd9bf30c36493b8500f3dab1097181"/>
-          <property name="Resolution" type="string" value="2560x1440"/>
-          <property name="RefreshRate" type="double" value="59.950550105254798"/>
-          <property name="Rotation" type="int" value="0"/>
-          <property name="Reflection" type="string" value="0"/>
-          <property name="Primary" type="bool" value="false"/>
-          <property name="Scale" type="empty">
-            <property name="X" type="double" value="1"/>
-            <property name="Y" type="double" value="1"/>
-          </property>
-          <property name="Position" type="empty">
-            <property name="X" type="int" value="0"/>
-            <property name="Y" type="int" value="0"/>
-          </property>
-        </property>
-      </property>
-      <property name="Fallback" type="empty">
-        <property name="HDMI-2" type="string" value="Samsung 48&quot;">
-          <property name="Active" type="bool" value="true"/>
-          <property name="EDID" type="string" value="27fad4939ecd9bf30c36493b8500f3dab1097181"/>
-          <property name="Resolution" type="string" value="2560x1440"/>
-          <property name="RefreshRate" type="double" value="59.950550105254798"/>
-          <property name="Rotation" type="int" value="0"/>
-          <property name="Reflection" type="string" value="0"/>
-          <property name="Primary" type="bool" value="false"/>
-          <property name="Scale" type="empty">
-            <property name="X" type="double" value="1"/>
-            <property name="Y" type="double" value="1"/>
-          </property>
-          <property name="Position" type="empty">
-            <property name="X" type="int" value="0"/>
-            <property name="Y" type="int" value="0"/>
-          </property>
-        </property>
-      </property>
-      <property name="Notify" type="int" value="0"/>
-      <property name="da39a3ee5e6b4b0d3255bfef95601890afd80709" type="string" value="">
-        <property name="HDMI-2" type="string" value="Samsung 48&quot;">
-          <property name="Active" type="bool" value="true"/>
-          <property name="EDID" type="string" value="27fad4939ecd9bf30c36493b8500f3dab1097181"/>
-          <property name="Resolution" type="string" value="2560x1440"/>
-          <property name="RefreshRate" type="double" value="59.950550105254798"/>
-          <property name="Rotation" type="int" value="0"/>
-          <property name="Reflection" type="string" value="0"/>
-          <property name="Primary" type="bool" value="false"/>
-          <property name="Scale" type="empty">
-            <property name="X" type="double" value="1"/>
-            <property name="Y" type="double" value="1"/>
-          </property>
-          <property name="Position" type="empty">
-            <property name="X" type="int" value="0"/>
-            <property name="Y" type="int" value="0"/>
-          </property>
-        </property>
-      </property>
-    </channel>'
+    # CONTENT='<?xml version="1.0" encoding="UTF-8"?>
+    # <channel name="displays" version="1.0">
+    #   <property name="ActiveProfile" type="string" value="Default"/>
+    #   <property name="Default" type="empty">
+    #     <property name="HDMI-2" type="string" value="Samsung 48&quot;">
+    #       <property name="Active" type="bool" value="true"/>
+    #       <property name="EDID" type="string" value="27fad4939ecd9bf30c36493b8500f3dab1097181"/>
+    #       <property name="Resolution" type="string" value="2560x1440"/>
+    #       <property name="RefreshRate" type="double" value="59.950550105254798"/>
+    #       <property name="Rotation" type="int" value="0"/>
+    #       <property name="Reflection" type="string" value="0"/>
+    #       <property name="Primary" type="bool" value="false"/>
+    #       <property name="Scale" type="empty">
+    #         <property name="X" type="double" value="1"/>
+    #         <property name="Y" type="double" value="1"/>
+    #       </property>
+    #       <property name="Position" type="empty">
+    #         <property name="X" type="int" value="0"/>
+    #         <property name="Y" type="int" value="0"/>
+    #       </property>
+    #     </property>
+    #   </property>
+    #   <property name="Fallback" type="empty">
+    #     <property name="HDMI-2" type="string" value="Samsung 48&quot;">
+    #       <property name="Active" type="bool" value="true"/>
+    #       <property name="EDID" type="string" value="27fad4939ecd9bf30c36493b8500f3dab1097181"/>
+    #       <property name="Resolution" type="string" value="2560x1440"/>
+    #       <property name="RefreshRate" type="double" value="59.950550105254798"/>
+    #       <property name="Rotation" type="int" value="0"/>
+    #       <property name="Reflection" type="string" value="0"/>
+    #       <property name="Primary" type="bool" value="false"/>
+    #       <property name="Scale" type="empty">
+    #         <property name="X" type="double" value="1"/>
+    #         <property name="Y" type="double" value="1"/>
+    #       </property>
+    #       <property name="Position" type="empty">
+    #         <property name="X" type="int" value="0"/>
+    #         <property name="Y" type="int" value="0"/>
+    #       </property>
+    #     </property>
+    #   </property>
+    #   <property name="Notify" type="int" value="0"/>
+    #   <property name="da39a3ee5e6b4b0d3255bfef95601890afd80709" type="string" value="">
+    #     <property name="HDMI-2" type="string" value="Samsung 48&quot;">
+    #       <property name="Active" type="bool" value="true"/>
+    #       <property name="EDID" type="string" value="27fad4939ecd9bf30c36493b8500f3dab1097181"/>
+    #       <property name="Resolution" type="string" value="2560x1440"/>
+    #       <property name="RefreshRate" type="double" value="59.950550105254798"/>
+    #       <property name="Rotation" type="int" value="0"/>
+    #       <property name="Reflection" type="string" value="0"/>
+    #       <property name="Primary" type="bool" value="false"/>
+    #       <property name="Scale" type="empty">
+    #         <property name="X" type="double" value="1"/>
+    #         <property name="Y" type="double" value="1"/>
+    #       </property>
+    #       <property name="Position" type="empty">
+    #         <property name="X" type="int" value="0"/>
+    #         <property name="Y" type="int" value="0"/>
+    #       </property>
+    #     </property>
+    #   </property>
+    # </channel>'
 
-    # Write the content to displays.xml
-    mkdir -p /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/
-    chown -R desktop:desktop /home/desktop/.config/
-    echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml >> new-install.log 2>&1
+    # # Write the content to displays.xml
+    # mkdir -p /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/
+    # chown -R desktop:desktop /home/desktop/.config/
+    # echo -e "$CONTENT" | tee /home/desktop/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml >> new-install.log 2>&1
 
     else
-    mkdir -p /scripts
-    FILE_PATH="/scripts/set_default_resolution.sh"
-    CONTENT="#!/bin/bash\n\nmonitor_name=\$(xrandr | grep -w connected | awk '{print \$1}')\nxrandr --output \"\$monitor_name\" --mode 2560x1440\n"
-    echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
-    chmod +x "$FILE_PATH"
+    # mkdir -p /scripts
+    # FILE_PATH="/scripts/set_default_resolution.sh"
+    # CONTENT="#!/bin/bash\n\nmonitor_name=\$(xrandr | grep -w connected | awk '{print \$1}')\nxrandr --output \"\$monitor_name\" --mode 2560x1440\n"
+    # echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
+    # chmod +x "$FILE_PATH"
 
-    FILE_PATH="/etc/xdg/autostart/resolution.desktop"
-    CONTENT="[Desktop Entry]\nName=resolution\nExec=/scripts/set_default_resolution.sh\nType=Application"
-    echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
+    # FILE_PATH="/etc/xdg/autostart/resolution.desktop"
+    # CONTENT="[Desktop Entry]\nName=resolution\nExec=/scripts/set_default_resolution.sh\nType=Application"
+    # echo -e "$CONTENT" | tee "$FILE_PATH" >> new-install.log 2>&1
     fi
 
     msg_ok "Default resolution has been set"
