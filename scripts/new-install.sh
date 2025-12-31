@@ -16,6 +16,21 @@ SET_MODULES=false
 SET_INTEL=false
 SET_GRAPHICAL_DISPLAY=false
 
+# Check for arguments
+for arg in "$@"; do
+  case $arg in
+    --intel)
+      SET_INTEL=true
+      SET_MODULES=true # Usually if you want Intel IOMMU, you want the modules too
+      shift
+      ;;
+    --graphical)
+      SET_GRAPHICAL_DISPLAY=true
+      shift
+      ;;
+  esac
+done
+
 clear
 
 #-----
