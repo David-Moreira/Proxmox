@@ -83,33 +83,40 @@ msg_ok "Disabled swap"
 #FSTAB And Default mounts
 msg_info "Setting fstab and default mounts"
 
-mountpoints=("/mnt/pve/barracuda" "/mnt/pve/downloads" "/mnt/pve/basic")
-
-for dir in "${mountpoints[@]}"; do
-    mkdir -p "$dir"
-done
-
 FSTAB="/etc/fstab"
 
 entries=(
-"UUID=2b7f9fa5-09f0-4b4f-83d1-d21128d00ee4 /mnt/pve/barracuda  ext4 defaults,nofail,x-systemd.device-timeout=1s 0 0"
-"UUID=37daabeb-16a1-49bb-8cd7-84b58a736b20 /mnt/pve/downloads  ext4 defaults,nofail,x-systemd.device-timeout=1s 0 0"
-"UUID=fe38564d-59a1-457d-8852-563faeb2b45f /mnt/pve/basic      ext4 defaults,nofail,x-systemd.device-timeout=1s 0 0"
+  "UUID=2b7f9fa5-09f0-4b4f-83d1-d21128d00ee4 /mnt/pve/barracuda  ext4 defaults,nofail,x-systemd.device-timeout=1s 0 0"
+  "UUID=37daabeb-16a1-49bb-8cd7-84b58a736b20 /mnt/pve/downloads  ext4 defaults,nofail,x-systemd.device-timeout=1s 0 0"
+  "UUID=fe38564d-59a1-457d-8852-563faeb2b45f /mnt/pve/basic       ext4 defaults,nofail,x-systemd.device-timeout=1s 0 0"
+  "//192.168.1.40/smb_media /mnt/pve/smb_media cifs credentials=/root/.credentials,noauto,x-systemd.automount,x-systemd.idle-timeout=600,noatime,uid=100000,gid=100000,dir_mode=0770,file_mode=0770 0 0"
+  "//192.168.1.40/smb_downloads /mnt/pve/smb_downloads cifs credentials=/root/.credentials,noauto,x-systemd.automount,x-systemd.idle-timeout=600,noatime,uid=100000,gid=100000,dir_mode=0770,file_mode=0770 0 0"
+  "//192.168.1.40/smb_backups /mnt/pve/smb_backups cifs credentials=/root/.credentials,noauto,x-systemd.automount,x-systemd.idle-timeout=600,noatime,uid=100000,gid=100000,dir_mode=0770,file_mode=0770 0 0"
+  "//192.168.1.40/smb_xenial /mnt/pve/smb_xenial cifs credentials=/root/.credentials,noauto,x-systemd.automount,x-systemd.idle-timeout=600,noatime,uid=100000,gid=100000,dir_mode=0770,file_mode=0770 0 0"
 )
 
 for entry in "${entries[@]}"; do
-    uuid=$(echo "$entry" | awk '{print $1}')
+    # Extract the mount point (2nd column)
+    mount_point=$(echo "$entry" | awk '{print $2}')
+    
+    # 1. Create the directory if it doesn't exist
+    if [ ! -d "$mount_point" ]; then
+        mkdir -p "$mount_point"
+    fi
 
-    # If the UUID does not exist in /etc/fstab, append the full line
-    if ! grep -q "$uuid" "$FSTAB"; then
-        echo "Adding missing entry: $entry"
-        echo "$entry" | tee -a "$FSTAB" > /dev/null
+    # 2. Check if the mount point is already in fstab
+    if ! grep -q "[[:space:]]$mount_point[[:space:]]" "$FSTAB"; then
+        echo "Adding missing entry for $mount_point"
+        echo "$entry" >> "$FSTAB"
     else
-        echo "Entry for $uuid already exists – skipping."
+        echo "Entry for $mount_point already exists, skipping."
     fi
 done
 
-msg_ok "Set fstab and default mounts"
+# Reload systemd to recognize the new automount units
+systemctl daemon-reload
+
+msg_ok "Set fstab and default mounts - don't forget smb .credentials"
 
 #-----
 #GRUB
