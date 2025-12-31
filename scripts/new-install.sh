@@ -121,10 +121,10 @@ for entry in "${entries[@]}"; do
 
     # 2. Check if the mount point is already in fstab
     if ! grep -q "[[:space:]]$mount_point[[:space:]]" "$FSTAB"; then
-        echo "Adding missing entry for $mount_point"
-        echo "$entry" >> "$FSTAB"
+        echo "Adding missing entry for $mount_point" >> new-install.log 2>&1
+        echo "$entry" >> "$FSTAB" 
     else
-        echo "Entry for $mount_point already exists, skipping."
+        echo "Entry for $mount_point already exists, skipping." >> new-install.log 2>&1
     fi
 done
 
@@ -135,6 +135,8 @@ msg_ok "Set fstab and default mounts - don't forget smb .credentials"
 
 #-----
 #GRUB
+msg_info "Configuring grub..."
+
 if [ "$SET_INTEL" = true ]; then
     msg_info "Configuring grub for intel iommu"
 
